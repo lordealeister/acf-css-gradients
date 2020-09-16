@@ -1,15 +1,17 @@
-<link href="<?php echo WP_PLUGIN_URL ?>/acf-css-gradients/vendor/css-gradient-generator-master/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" media="all">
+<link href="<?php echo WP_PLUGIN_URL ?>/acf-css-gradients/vendor/css-gradient-generator-master/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css" media="all">
 <link href="<?php echo WP_PLUGIN_URL ?>/acf-css-gradients/vendor/css-gradient-generator-master/src/css-gradient-generator.css" rel="stylesheet" type="text/css" media="all">
 <link href="<?php echo WP_PLUGIN_URL ?>/acf-css-gradients/vendor/css-gradient-generator-master/resources/icomoon/sprites.css" rel="stylesheet" type="text/css">
 <link href="<?php echo WP_PLUGIN_URL ?>/acf-css-gradients/vendor/css-gradient-generator-master/resources/bootstrap-colorpickersliders/bootstrap.colorpickersliders.css" rel="stylesheet" type="text/css" media="all">
+
 <div class="container">
 
 
-    <div class="css-gradient-editor-container layout-init clearfix">
+    <div id="<?= $field['key'] ?>" class="css-gradient-editor-container layout-init clearfix">
+    <input class="input-gradient-data" type="hidden" name="<?= $field['name'] ?>" value="<?= $field['value'] ?>" />
 
         <div class="row">
 
-            <div class="col-md-6">
+            <!-- <div class="col-md-6">
 
                 <div class="panel css-gradient-editor-swatches-wrapper">
                     <div class="panel-heading"><h2 class="panel-title pull-left">Presets</h2>
@@ -30,55 +32,28 @@
                     </div>
                 </div>
 
-            </div>
+            </div> -->
 
-            <div class="col-md-6">
-
-                <div class="css-gradient-editor panel css-gradient-editor-preview-panel">
-                    <div class="panel-heading"><h2 class="panel-title pull-left">Preview</h2>
-                        <div class="clearfix">
-                            <div class="pull-right btn-group">
-                                <button type="button" class="btn btn-primary btn-sm css-gradient-editor-adjustcolor"><span class="pngicon-settings"></span> Adjust color</button>
-                                <button type="button" class="btn btn-primary btn-sm css-gradient-editor-previewpopout"><span class="pngicon-popup"></span> Pop out</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="panel-body">
-
-                        <div class="css-gradient-editor-preview-container">
-                            <div class="css-gradient-editor-preview">
-                                <div class="ajax-loader"><span class="css-gradient-editor-preview-resize-handler"></span></div>
-                                <span class="css-gradient-controls">
-                                            <button type="button" class="btn btn-primary btn-sm css-gradient-editor-previewpopout"><span class="pngicon-collapse"></span></button>
-                                        </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="panel gradient-properties">
-            <div class="panel-heading"><h2 class="panel-title pull-left">Gradient properties</h2>
+            <div class="col">
+            <div class="panel gradient-properties">
+            <div class="panel-heading"><h2 class="panel-title pull-left">Configurações</h2>
                 <div class="clearfix">
-                    <div class="pull-right btn-group">
-                        <a href="" class="btn btn-hover btn-primary btn-sm css-gradient-editor-layout-easy" title="<b>IE6+, Android 2.3+, iOS 3.2+</b><br>CSS, filter, old webkit<br><i>linear gradients</i>">Simple</a>
-                        <a href="" class="btn btn-hover btn-primary btn-sm css-gradient-editor-layout-advanced" title="<b>IE9+, Android 3.0+, iOS 3.2+, WP7.5+</b><br>CSS, SVG<br><i>dynamic radial gradients</i>">Advanced</a>
+                    <!-- <div class="pull-right btn-group">
+                        <a href="" class="btn btn-hover btn-primary btn-sm css-gradient-editor-layout-easy" title="<b>IE6+, Android 2.3+, iOS 3.2+</b><br>CSS, filter, old webkit<br><i>linear gradients</i>">Simples</a>
+                        <a href="" class="btn btn-hover btn-primary btn-sm css-gradient-editor-layout-advanced" title="<b>IE9+, Android 3.0+, iOS 3.2+, WP7.5+</b><br>CSS, SVG<br><i>dynamic radial gradients</i>">Avançado</a>
                         <a href="" class="btn btn-hover btn-primary btn-sm css-gradient-editor-layout-expert" title="<b>IE10+, Android 4.0+, iOS 5.0+</b><br>Only for browsers with CSS3 support<br><i>experimental</i>">Expert</a>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <div class="panel-body nopadding">
 
                 <div class="layout-warning-box">
                     <div class="label-warning layout-warning-advanced">
-                        Current gradient needs advanced features so the desired layout is overwritten! ... <a href="" class="force-layout-change">Force change</a>
+                        Current gradient needs advanced features so the desired layout is overwritten! ... <a href="" class="force-layout-change">Forçar mudança</a>
                     </div>
 
                     <div class="label-warning layout-warning-expert">
-                        Current gradient needs expert features so the desired layout is overwritten! ... <a href="" class="force-layout-change">Force change</a>
+                        Current gradient needs expert features so the desired layout is overwritten! ... <a href="" class="force-layout-change">Forçar mudança</a>
                     </div>
                 </div>
 
@@ -113,13 +88,13 @@
                             <div class="form-group">
                                 <label class="col-xs-3">Repeating: </label>
                                 <div class="col-xs-9 btn-group">
-                                    <button class="btn btn-default btn-sm css-gradient-editor-controller" data-control-group="repeat" data-name="gradient_repeat" data-value="on">repeat</button>
-                                    <button class="btn btn-default btn-sm css-gradient-editor-controller" data-control-group="repeat" data-name="gradient_repeat" data-value="off">no repeat</button>
+                                    <button class="btn btn-default btn-sm css-gradient-editor-controller" data-control-group="repeat" data-name="gradient_repeat" data-value="on">repetir</button>
+                                    <button class="btn btn-default btn-sm css-gradient-editor-controller" data-control-group="repeat" data-name="gradient_repeat" data-value="off">não repetir</button>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="col-xs-3">Gradient type: </label>
+                                <label class="col-xs-3">Tipo: </label>
                                 <div class="col-xs-9 btn-group">
                                     <button class="btn btn-default btn-sm css-gradient-editor-controller" data-control-group="gradient_type" data-name="gradient_type" data-value="linear">linear</button>
                                     <button class="btn btn-default btn-sm css-gradient-editor-controller" data-control-group="gradient_type" data-name="gradient_type" data-value="radial">radial</button>
@@ -127,7 +102,7 @@
                             </div>
 
                             <div class="css-gradient-editor-linear-preferences form-group">
-                                <label class="col-xs-3">Direction:</label>
+                                <label class="col-xs-3">Direção:</label>
                                 <div class="col-xs-9">
                                     <div class="css-gradient-editor-linear-direction">
                                         <div class="css-gradient-editor-linear-direction-implicit">
@@ -157,18 +132,18 @@
 
                             <div class="css-gradient-editor-radial-preferences form-group">
                                 <div class="form-group css-gradient-editor-radial-shape">
-                                    <label class="col-xs-3">Shape: </label>
+                                    <label class="col-xs-3">Forma: </label>
                                     <div class="col-xs-9 btn-group">
-                                        <button class="btn btn-default btn-sm css-gradient-editor-controller" data-control-group="gradient_shape" data-name="gradient_shape" data-value="circle">circle</button>
-                                        <button class="btn btn-default btn-sm css-gradient-editor-controller" data-control-group="gradient_shape" data-name="gradient_shape" data-value="ellipse">ellipse</button>
+                                        <button class="btn btn-default btn-sm css-gradient-editor-controller" data-control-group="gradient_shape" data-name="gradient_shape" data-value="circle">círculo</button>
+                                        <button class="btn btn-default btn-sm css-gradient-editor-controller" data-control-group="gradient_shape" data-name="gradient_shape" data-value="ellipse">elípse</button>
                                     </div>
                                 </div>
 
                                 <div class="form-group css-gradient-editor-radial-size">
-                                    <label class="col-xs-3">Size: </label>
+                                    <label class="col-xs-3">Tamanho: </label>
                                     <div class="col-xs-9">
                                         <div class="controls">
-                                            <label>Implicit</label>
+                                            <label>Implícito</label>
                                             <div class="btn-group">
                                                 <button class="btn btn-default btn-sm css-gradient-editor-controller" data-control-group="gradient_size" data-name="gradient_size" data-value="closest-side">closest-side</button>
                                                 <button class="btn btn-default btn-sm css-gradient-editor-controller" data-control-group="gradient_size" data-name="gradient_size" data-value="closest-corner">closest-corner</button>
@@ -177,43 +152,43 @@
                                             </div>
                                         </div>
                                         <div class="controls">
-                                            <label>Explicit</label>
+                                            <label>Explícito</label>
                                             <span class="span css-gradient-editor-controller css-gradient-editor-size-explicit" data-control-group="gradient_size" data-name="gradient_size" data-value="explicit"><input type="text" name="gradient_size" data-units='["px"]' class="input-sm"> <input type="text" name="gradient_size_major" data-units='["px"]' class="input-sm"></span>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="form-group css-gradient-editor-radial-horizontal-position">
-                                    <label class="col-xs-3">Horizontal position: </label>
+                                    <label class="col-xs-3">Posição horizontal: </label>
                                     <div class="col-xs-9">
                                         <div class="controls">
-                                            <label>Implicit</label>
+                                            <label>Implícito</label>
                                             <div class="btn-group">
-                                                <button class="btn btn-default btn-sm css-gradient-editor-controller" data-control-group="gradient_position_horizontal" data-name="gradient_position_horizontal" data-value="left">left</button>
-                                                <button class="btn btn-default btn-sm css-gradient-editor-controller" data-control-group="gradient_position_horizontal" data-name="gradient_position_horizontal" data-value="center">center</button>
-                                                <button class="btn btn-default btn-sm css-gradient-editor-controller" data-control-group="gradient_position_horizontal" data-name="gradient_position_horizontal" data-value="right">right</button>
+                                                <button class="btn btn-default btn-sm css-gradient-editor-controller" data-control-group="gradient_position_horizontal" data-name="gradient_position_horizontal" data-value="left">esquerda</button>
+                                                <button class="btn btn-default btn-sm css-gradient-editor-controller" data-control-group="gradient_position_horizontal" data-name="gradient_position_horizontal" data-value="center">centro</button>
+                                                <button class="btn btn-default btn-sm css-gradient-editor-controller" data-control-group="gradient_position_horizontal" data-name="gradient_position_horizontal" data-value="right">direta</button>
                                             </div>
                                         </div>
                                         <div class="controls">
-                                            <label>Explicit</label>
+                                            <label>Explícito</label>
                                             <span class="css-gradient-editor-controller css-gradient-editor-position-horizontal-explicit" data-control-group="gradient_position_horizontal" data-name="gradient_position_horizontal" data-value="explicit"><input type="text" name="gradient_position_horizontal" data-units='["%","px"]' class="input-sm"></span>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="form-group css-gradient-editor-radial-vertical-position">
-                                    <label class="col-xs-3">Vertical position: </label>
+                                    <label class="col-xs-3">Posição vertical: </label>
                                     <div class="col-xs-9">
                                         <div class="controls">
-                                            <label>Implicit</label>
+                                            <label>Implícito</label>
                                             <div class="btn-group">
-                                                <button class="btn btn-default btn-sm css-gradient-editor-controller" data-control-group="gradient_position_vertical" data-name="gradient_position_vertical" data-value="top">top</button>
-                                                <button class="btn btn-default btn-sm css-gradient-editor-controller" data-control-group="gradient_position_vertical" data-name="gradient_position_vertical" data-value="center">center</button>
-                                                <button class="btn btn-default btn-sm css-gradient-editor-controller" data-control-group="gradient_position_vertical" data-name="gradient_position_vertical" data-value="bottom">bottom</button>
+                                                <button class="btn btn-default btn-sm css-gradient-editor-controller" data-control-group="gradient_position_vertical" data-name="gradient_position_vertical" data-value="top">em cima</button>
+                                                <button class="btn btn-default btn-sm css-gradient-editor-controller" data-control-group="gradient_position_vertical" data-name="gradient_position_vertical" data-value="center">centro</button>
+                                                <button class="btn btn-default btn-sm css-gradient-editor-controller" data-control-group="gradient_position_vertical" data-name="gradient_position_vertical" data-value="bottom">embaixo</button>
                                             </div>
                                         </div>
                                         <div class="controls">
-                                            <label>Explicit</label>
+                                            <label>Explícito</label>
                                             <span class="css-gradient-editor-controller css-gradient-editor-position-vertical-explicit" data-control-group="gradient_position_vertical" data-name="gradient_position_vertical" data-value="explicit"><input type="text" name="gradient_position_vertical" data-units='["px","%"]' class="input-sm"></span>
                                         </div>
                                     </div>
@@ -232,12 +207,41 @@
 
                         <div class="css-gradient-editor-colorstops-advanced clearfix">
                             <div class="css-gradient-editor-stoppointlist"></div>
-                            <button type="button" class="col-md-4 btn btn-sm btn-default css-gradient-editor-reorder-stoppoints"><span class="pngicon-random"></span> Update order</button>
-                            <button type="button" class="col-md-offset-4 col-md-4 btn btn-sm btn-primary css-gradient-editor-add-stoppoint"><span class="pngicon-plus"></span> Add stop point</button>
+                            <button type="button" class="col-md-4 btn btn-sm btn-default css-gradient-editor-reorder-stoppoints"><span class="pngicon-random"></span> Atualizar ordem</button>
+                            <button type="button" class="col-md-offset-4 col-md-4 btn btn-sm btn-primary css-gradient-editor-add-stoppoint"><span class="pngicon-plus"></span> Adicionar cor</button>
                         </div>
 
                     </div>
                 </div>
+            </div>
+
+        </div>
+            </div>
+
+            <div class="col">
+
+                <div class="css-gradient-editor panel css-gradient-editor-preview-panel">
+                    <div class="panel-heading"><h2 class="panel-title pull-left">Preview</h2>
+                        <div class="clearfix">
+                            <div class="pull-right btn-group">
+                                <button type="button" class="btn btn-primary btn-sm css-gradient-editor-adjustcolor"><span class="pngicon-settings"></span> Ajustar cor</button>
+                                <!-- <button type="button" class="btn btn-primary btn-sm css-gradient-editor-previewpopout"><span class="pngicon-popup"></span> Pop out</button> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+
+                        <div class="css-gradient-editor-preview-container">
+                            <div class="css-gradient-editor-preview">
+                                <div class="ajax-loader"><span class="css-gradient-editor-preview-resize-handler"></span></div>
+                                <span class="css-gradient-controls">
+                                            <button type="button" class="btn btn-primary btn-sm css-gradient-editor-previewpopout"><span class="pngicon-collapse"></span></button>
+                                        </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
         </div>
@@ -426,3 +430,7 @@
         </div>
     </div>
 </div>
+
+<script>
+    var ge = new CSSGradientEditor(jQuery('#<?= $field['key'] ?>'));
+</script>

@@ -172,13 +172,13 @@ if( !class_exists('acf_field_css_gradient') ) :
 
 
             // register & include JS
-            wp_enqueue_script( 'acf-input-css-gradient-bootstrap', "{$url}vendor/css-gradient-generator-master/bootstrap/js/bootstrap.min.js", array('acf-input', 'jquery'), $version, true );
-            wp_enqueue_script( 'acf-input-css-gradient-bootstrap-touchspin', "{$url}vendor/css-gradient-generator-master/resources/bootstrap-touchspin/bootstrap.touchspin.js", array('acf-input', 'jquery'), $version, true );
-            wp_enqueue_script( 'acf-input-css-gradient-tinycolor', "{$url}vendor/css-gradient-generator-master/resources/tinycolor/tinycolor.js", array('acf-input', 'jquery', 'acf-input-css-gradient-bootstrap'), $version, true );
-            wp_enqueue_script( 'acf-input-css-gradient-colorpickersliders', "{$url}vendor/css-gradient-generator-master/resources/bootstrap-colorpickersliders/bootstrap.colorpickersliders.js", array('acf-input', 'jquery', 'acf-input-css-gradient-tinycolor'), $version, true );
-            wp_enqueue_script( 'acf-input-css-gradient-base64', "{$url}vendor/css-gradient-generator-master/resources/jquery.base64/jquery.base64.min.js", array('acf-input', 'jquery'), $version, true );
-            wp_enqueue_script( 'acf-input-css-gradient-master', "{$url}vendor/css-gradient-generator-master/src/css-gradient-generator.js", array('acf-input', 'jquery', 'acf-input-css-gradient-colorpickersliders'), $version, true );
-            wp_enqueue_script( 'acf-input-css-gradient-admin', "{$url}assets/admin-acf-css-gradient.js", array('acf-input', 'jquery', 'acf-input-css-gradient-master'), $version, true );
+            wp_enqueue_script( 'acf-input-css-gradient-bootstrap', "{$url}vendor/css-gradient-generator-master/bootstrap/js/bootstrap.min.js", array('acf-input', 'jquery'), $version, false );
+            wp_enqueue_script( 'acf-input-css-gradient-bootstrap-touchspin', "{$url}vendor/css-gradient-generator-master/resources/bootstrap-touchspin/bootstrap.touchspin.js", array('acf-input', 'jquery'), $version, false );
+            wp_enqueue_script( 'acf-input-css-gradient-tinycolor', "{$url}vendor/css-gradient-generator-master/resources/tinycolor/tinycolor.js", array('acf-input', 'jquery', 'acf-input-css-gradient-bootstrap'), $version, false );
+            wp_enqueue_script( 'acf-input-css-gradient-colorpickersliders', "{$url}vendor/css-gradient-generator-master/resources/bootstrap-colorpickersliders/bootstrap.colorpickersliders.js", array('acf-input', 'jquery', 'acf-input-css-gradient-tinycolor'), $version, false );
+            wp_enqueue_script( 'acf-input-css-gradient-base64', "{$url}vendor/css-gradient-generator-master/resources/jquery.base64/jquery.base64.min.js", array('acf-input', 'jquery'), $version, false );
+            wp_enqueue_script( 'acf-input-css-gradient-master', "{$url}vendor/css-gradient-generator-master/src/css-gradient-generator.js", array('acf-input', 'jquery', 'acf-input-css-gradient-colorpickersliders'), $version, false );
+            // wp_enqueue_script( 'acf-input-css-gradient-admin', "{$url}assets/admin-acf-css-gradient.js", array('acf-input', 'jquery', 'acf-input-css-gradient-master'), $version, true );
 
 
             // register & include CSS
@@ -549,6 +549,14 @@ if( !class_exists('acf_field_css_gradient') ) :
 
         */
 
+        function format_value( $value, $post_id, $field ) {
+            // bail early if no value
+            if(empty($value))
+                return $value;
+
+            // return
+            return json_decode(urldecode($value));
+        }
 
     }
 

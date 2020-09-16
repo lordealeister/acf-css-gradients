@@ -1,14 +1,8 @@
 
-@import url('http://fonts.googleapis.com/css?family=Droid+Sans|Monda');
-
 @media (min-width: 768px) {
   .container {
     width: 100%;
   }
-}
-
-body {
-  font-family: 'Droid Sans', sans-serif;
 }
 
 .row.license {
@@ -851,16 +845,16 @@ fieldset[disabled] .btn-primary.active {
   box-shadow: inset 0 3px 10px rgba(0,0,0,0.2),inset 0 -3px 10px rgba(0,0,0,0.2);
 }
 
-label {
+.css-gradient-editor-container label {
   font-weight: normal;
   font-size: 14px;
 }
 
-.syntaxhighlighter {
+.css-gradient-editor-container .syntaxhighlighter {
   padding: 1px;
 }
 
-pre.css-gradient-editor-cssoutput {
+.css-gradient-editor-container pre.css-gradient-editor-cssoutput {
   background: transparent;
   border: none;
 }
@@ -940,7 +934,7 @@ pre.css-gradient-editor-cssoutput {
   max-height: 80%;
 }
 
-label {
+.css-gradient-editor-container label {
   padding: 4px 15px;
 }
 
@@ -1071,4 +1065,14 @@ css-gradient-editor-container.layout-simple .hide-element {
 .layout-warning-advanced,
 .layout-warning-expert {
   display: none;
+}
+
+.cp-popover-container{
+  background-color: #fff;
+  z-index:10000000;
+}
+.popover{
+  /* background-color: #fff; */
+  z-index:10000000;
+  width: 100%;
 }

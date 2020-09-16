@@ -102,7 +102,8 @@ var CSSGradientEditor = function(container, options) {
     warningadvanced: $('.layout-warning-advanced'),
     warningexpert: $('.layout-warning-expert'),
     loaddefaults: $('.loaddefaults', '#importmodal'),
-    gradientpropertiespanel: $('.panel.gradient-properties', container)
+    gradientpropertiespanel: $('.panel.gradient-properties', container),
+    inputGradientData: $('.input-gradient-data', container)
   },
   settings = $.extend({
     customswatchesnameprefix: 'cssgradienteditor',
@@ -167,7 +168,7 @@ var CSSGradientEditor = function(container, options) {
         gradient_position_vertical_unit: 'vu'
       },
   defaultconfig = {
-    config_layout: LAYOUT_ADVANCED,
+    config_layout: LAYOUT_EXPERT,
     config_colorformat: 'rgb',
     config_colorpicker_hsl: true,
     config_colorpicker_rgb: true,
@@ -243,16 +244,12 @@ var CSSGradientEditor = function(container, options) {
     // });
 
     initSupportedRenderModes();
-
-    if (window.location.search.length) {
-      initData(window.location.search.substring(1));  // compatibility with the older urls
-    }
-    else if (getConfig('lastGradient')) {
-      initData(getConfig('lastGradient'));
-    }
-    else {
+    const loaded = loadInputGradientData();
+    
+    if(typeof loaded !== 'undefined' && loaded.hasOwnProperty('swatch'))
+      initData(loaded.swatch);
+    else
       initData('t=linear,d=bottom,r=on|c5e3ef/0/%,4badd2/50/%,278fba/51/%,8ed4f1/100/%');
-    }
 
     initConfigValues();
     bindConfigEvents();
@@ -436,18 +433,21 @@ var CSSGradientEditor = function(container, options) {
     elements.coloroffsetlightness.css('left', 50 + 50 * (coloroffset.lightness / 100) + '%');
 
     elements.coloroffsethue.tooltip({
+      container: container,
       title: 'hue: ' + (coloroffset.hue > 0 ? '+' : '') + coloroffset.hue,
       animation: false,
       trigger: 'manual'
     });
 
     elements.coloroffsetchroma.tooltip({
+      container: container,
       title: 'chroma: ' + (coloroffset.saturation > 0 ? '+' : '') + coloroffset.saturation,
       animation: false,
       trigger: 'manual'
     });
 
     elements.coloroffsetlightness.tooltip({
+      container: container,
       title: 'lightness: ' + (coloroffset.lightness > 0 ? '+' : '') + coloroffset.lightness,
       animation: false,
       trigger: 'manual'
@@ -804,7 +804,7 @@ var CSSGradientEditor = function(container, options) {
     var el,
         popover_content;
 
-    coloradjust_popover_container = $('<div class="coloroffset-popover-container"></div>').appendTo('body');
+    coloradjust_popover_container = $('<div class="coloroffset-popover-container"></div>').appendTo(container);
 
     popover_content = $('<div class="coloroffset-container"></div>').appendTo(coloradjust_popover_container);
     popover_content.html($('#coloroffsethtml').html());
@@ -820,7 +820,7 @@ var CSSGradientEditor = function(container, options) {
       animation: false,
       trigger: 'manual',
       title: 'Adjust gradient color <button type="button" class="close coloroffset-close pull-right" aria-hidden="true">×</button>',
-      placement: 'top',
+      placement: 'left',
       container: coloradjust_popover_container,
       content: function() {
         return popover_content;
@@ -2197,7 +2197,7 @@ var CSSGradientEditor = function(container, options) {
       order: colorpickerconfig.sliders,
       swatches: colorpickerconfig.swatches,
       previewformat: colorpickerconfig.previewformat,
-      onchange: function(container, color) {
+      onchange: function(colorPicker, color) {
         nullColorOffsets();
 
         _hideColorAdjust();
@@ -2206,6 +2206,7 @@ var CSSGradientEditor = function(container, options) {
 
         setColorStopData(index, 'color', color.tiny.toRgbString());
         lastSelectedColor = color.tiny.toRgbString();
+        container.append($('.cp-popover-container'));
 
         renderColorStopMarkers();
         renderGradient();
@@ -2491,8 +2492,9 @@ var CSSGradientEditor = function(container, options) {
     var points = getRepeatingStopPoints(dataset),
         stoppoints = '';
 
-    for (var i = 0; i < points.length; i++) {
-      stoppoints += ',color-stop(' + Math.round(points[i].position * 10) / 1000 + ', ' + getRenderColor(points[i]) + ')';
+    if(typeof points !== 'undefined') {
+      for(var i = 0; i < points.length; i++)
+        stoppoints += ',color-stop(' + Math.round(points[i].position * 10) / 1000 + ', ' + getRenderColor(points[i]) + ')';
     }
 
     return stoppoints;
@@ -2647,8 +2649,9 @@ var CSSGradientEditor = function(container, options) {
     var points = getRepeatingStopPoints(dataset),
         stoppoints = '';
 
-    for (var i = 0; i < points.length; i++) {
-      stoppoints += '<stop ' + getSvgStyle(points[i]) + ' offset="' + points[i].position / 100 + '"/>';
+    if(typeof points !== 'undefined') {
+      for(var i = 0; i < points.length; i++)
+        stoppoints += '<stop ' + getSvgStyle(points[i]) + ' offset="' + points[i].position / 100 + '"/>';
     }
 
     return stoppoints;
@@ -3410,11 +3413,13 @@ var CSSGradientEditor = function(container, options) {
     var visiblecount = getVisibleColorStopsCount(),
         sp = getVisibleColorStops(),
         selector = getConfig('config_cssselector');
-
+        
+    cssoutput = '';
     if (visiblecount > 1) {
       var gradientdata = getGradientData();
 
       if (gradientdata.valid) {
+        
         var css = {
           bgcolor: '    background-color: ' + getRenderColor(gradientdata.averagebgcolor) + ';\n',
           svg: '    /* IE9, iOS 3.2+ */\n    background-image: ' + gradientdata.svg + ';\n',
@@ -3462,7 +3467,7 @@ var CSSGradientEditor = function(container, options) {
           out += css.ms;
         }
 
-        cssoutput = selector + ' {\n' + out + '}\n';
+        cssoutput = out;
 
         if (getConfig('config_generation_iefilter')) {
           cssoutput = cssoutput + css.filter;
@@ -3470,17 +3475,17 @@ var CSSGradientEditor = function(container, options) {
       }
       else {
         if (visiblecount > 0) {
-          cssoutput = selector + ' {\n    background-color: ' + getRenderColor(sp[sp.length - 1]) + ';\n}';
+          cssoutput = 'background-color: ' + getRenderColor(sp[sp.length - 1]) + ';';
         }
         else {
-          cssoutput = selector + ' {\n    background-color: transparent;\n}';
+          cssoutput = selector + 'background-color: transparent;';
         }
       }
     }
     else if (visiblecount === 1) {
-      cssoutput = selector + ' {\n';
-      cssoutput += '    background-color: ' + getRenderColor(sp[0]) + ';\n';
-      cssoutput += '}';
+      // cssoutput = selector + ' {\n';
+      cssoutput += 'background-color: ' + getRenderColor(sp[0]) + ';\n';
+      // cssoutput += '}';
       if (tinycolor(sp[0].color).getAlpha() < 1) {
 
         var filter = 'progid:DXImageTransform.Microsoft.gradient(startColorstr="' + tinycolor(sp[0].color).toHex8String() + '",endColorstr="' + tinycolor(sp[0].color).toHex8String() + '")';
@@ -3489,13 +3494,15 @@ var CSSGradientEditor = function(container, options) {
       }
     }
     else {
-      cssoutput = selector + ' {\n    background-color: transparent;\n}';
+      // cssoutput = selector + ' {\n    background-color: transparent;\n}';
+      cssoutput = '';
     }
   }
 
   function updateCssOutput() {
     refreshCssOutput();
 
+    updateInputGradientData(cssoutput);
     elements.cssoutput.text(cssoutput);
 
     // var brush = new SyntaxHighlighter.brushes.CSS();
@@ -3666,9 +3673,10 @@ var CSSGradientEditor = function(container, options) {
   function getWeightedAverageColor(dataset) {
     var stops = getVisibleColorStops(dataset);
 
-    if (stops.length === 1) {
+    if(stops.length === 0)
+      return 'transparent';
+    if(stops.length === 1)
       return stops[0].color;
-    }
 
     var min = stops[0].position,
         max = stops[stops.length - 1].position,
@@ -3917,6 +3925,7 @@ var CSSGradientEditor = function(container, options) {
   }
 
   function addCurrentGradientToSwatches() {
+    console.log(currentgradient);
     addGradientToSwatches(currentgradient);
   }
 
@@ -4239,4 +4248,23 @@ var CSSGradientEditor = function(container, options) {
 
     setupLayout();
   }
+
+  function updateInputGradientData(cssoutput) {
+    const obj = {};
+    obj.output = cssoutput;
+    if(currentgradient)
+      obj.swatch = convertToNewGradientFormat(currentgradient);
+      
+    elements.inputGradientData.val(encodeURIComponent(JSON.stringify(obj)));
+  }
+
+  function loadInputGradientData() {
+    const value = elements.inputGradientData.val();
+
+    if(!value)
+      return;
+
+    return JSON.parse(decodeURIComponent(elements.inputGradientData.val()));
+  }
+
 };
